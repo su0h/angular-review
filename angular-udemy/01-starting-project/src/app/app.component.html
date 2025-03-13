@@ -1,0 +1,21 @@
+<app-header></app-header>
+
+<main>
+    <ul id="users">
+        @for (user of users; track user.id) {
+            <li>
+                <app-user [user]="user" [isSelected]="user.id === selectedUserId" (selectedUser)="onSelectUser($event.id)"></app-user>
+            </li>
+        }
+    </ul>
+    @if (selectedUser) {
+        <app-tasks [user]="selectedUser" (isNewTaskButtonClickedEmitter)="onClickNewTaskButton()" [newTask]="newTask"></app-tasks>
+    } @else {
+        <p id="fallback">Select a user to see their tasks</p>
+    }
+</main>
+
+
+@if (isNewTaskFormVisible) {
+    <app-new-task (isCancelButtonClickedEmitter)="onClickCancelButton()" (isCreateButtonClickedEmitter)="onClickCreateButton($event)"></app-new-task>
+}
