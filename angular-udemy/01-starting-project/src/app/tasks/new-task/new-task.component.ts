@@ -1,6 +1,7 @@
-import { Component, output } from '@angular/core';
-import { Task } from '../task/task.model';
+import { Component, inject, input, output } from '@angular/core';
+import { NewTaskData, Task } from '../task/task.model';
 import { FormsModule } from '@angular/forms';
+import { TasksService } from '../tasks.service';
 
 @Component({
   selector: 'app-new-task',
@@ -10,12 +11,12 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './new-task.component.css'
 })
 export class NewTaskComponent {
+  userId = input.required<string>();
   isCancelButtonClickedEmitter = output<boolean>();
-  isCreateButtonClickedEmitter = output<Task>();
-
-  taskTitle: string = '';
-  taskSummary: string = '';
-  taskDueDate: string = '';
+  taskTitle!: string;
+  taskSummary!: string;
+  taskDueDate!: string;
+  private tasksService = inject(TasksService);
 
   onClickCancelButton() {
     this.isCancelButtonClickedEmitter.emit(true);
@@ -23,13 +24,12 @@ export class NewTaskComponent {
 
   onClickCreateButton() {
     const newTask = {
-      id: "NaN", 
-      userId: "TODO", 
       title: this.taskTitle, 
-      summary: this.taskTitle, 
-      dueDate: this.taskDueDate + ""
+      summary: this.taskSummary, 
+      date: this.taskDueDate + ""
     }
 
-    this.isCreateButtonClickedEmitter.emit(newTask);
+    this.tasksService.addTask(newTask, this.userId());
+    this.isCancelButtonClickedEmitter.emit(true);
   }
 }

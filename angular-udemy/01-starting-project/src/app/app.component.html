@@ -9,13 +9,8 @@
         }
     </ul>
     @if (selectedUser) {
-        <app-tasks [user]="selectedUser" (isNewTaskButtonClickedEmitter)="onClickNewTaskButton()" [newTask]="newTask"></app-tasks>
+        <app-tasks [user]="selectedUser"></app-tasks>
     } @else {
         <p id="fallback">Select a user to see their tasks</p>
     }
 </main>
-
-
-@if (isNewTaskFormVisible) {
-    <app-new-task (isCancelButtonClickedEmitter)="onClickCancelButton()" (isCreateButtonClickedEmitter)="onClickCreateButton($event)"></app-new-task>
-}

@@ -9,10 +9,14 @@
     <ul>
         @for (task of selectedUserTasks; track task.id) {
             <li>
-                <app-task [task]="task" (completeEmitter)="onClickCompleteTasks($event)"></app-task>
+                <app-task [task]="task"></app-task>
             </li>
         } @empty {
             <p>All done. Yay!</p>
         }
     </ul>
 </section>
+
+@if (isNewTaskFormVisible) {
+    <app-new-task (isCancelButtonClickedEmitter)="onClickCancelButton()" [userId]="user().id"></app-new-task>
+}
